@@ -1,0 +1,64 @@
+﻿<Window x:Class="WpfApp2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <!-- 1. Window 바로 정가운데에 Resources가 들어가야 해! -->
+    <Window.Resources>
+        <Style x:Key="ModernButton" TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder" 
+                            Background="{TemplateBinding Background}" 
+                            CornerRadius="6" 
+                            Padding="{TemplateBinding Padding}"
+                            RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                            </Border.RenderTransform>
+
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <!-- 3. 여기가 핵심! 상태 변화 감지기 (Triggers) -->
+                        <ControlTemplate.Triggers>
+                            <!-- 마우스를 올렸을 때 (Hover) -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#1C92D9"/>
+                                <!-- 약간 밝은 블루 -->
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <!-- 마우스 커서를 손가락 모양으로 -->
+                            </Trigger>
+
+                            <!-- 마우스로 클릭했을 때 (Pressed) ★★★ -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#005A9E"/>
+                                <!-- 어두운 블루로 변경 -->
+                                <!-- 버튼 크기를 96%로 살짝 줄여서 꾹 눌린 듯한 느낌을 줌 -->
+                                <Setter TargetName="ButtonBorder" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.96" ScaleY="0.96"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <!-- 2. 화면 배치는 반드시 Window.Resources 가 "끝난 다음"에 나와야 해! -->
+    <Grid>
+        <Button Click="Button_Click" Style="{StaticResource ModernButton}" Content="헬로~" Width="150" Height="40"/>
+    </Grid>
+</Window>
